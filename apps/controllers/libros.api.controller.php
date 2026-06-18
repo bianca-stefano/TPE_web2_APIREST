@@ -16,10 +16,24 @@ class librosApiController {
         
         //opcional= ordenar por autor
         $id_autor=$req->query->autor ?? null;
+
+        //paginado
+        //se obliga que sea un entero 
+        $pag= (int) ($req->query->page ?? 1);
+
+        //limite de libors a mostrar en cada pagina
+        $limite= (int) ($req->query->limit ?? 10);
+
+        //cuantos libros saltearse, segun la pagina que pidio el usuario
+        //(1-1)*10= 0 , no se saltea nada
+        //(2-1)*10 se saltea 10
+        $offset=($pag-1)*$limite;
+
         if($id_autor){
-            $libros= $this->model->getAllByAutor($id_autor, $sortBy, $order);
+            //modificado el libromodel
+            $libros= $this->model->getAllByAutor($id_autor, $sortBy, $order, $limite, $offset);
         } else {
-            $libros= $this->model->getAll($sortBy,$order);
+            $libros= $this->model->getAllAPI($sortBy,$order, $limite, $offset);
         }
         return $res->json($libros, 200);
 

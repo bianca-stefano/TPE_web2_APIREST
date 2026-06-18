@@ -11,6 +11,14 @@ class librosModel {
         $query->execute();
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
+    public function getAllAPI($sortBy,$order, $limite, $offset) {
+        $sql=   "SELECT * FROM libro
+                ORDER BY $sortBy $order
+                LIMIT $limite OFFSET $offset"; 
+        $query= $this->db->prepare($sql);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
 
     public function getLibroById($id) {
         $query=$this->db->prepare('SELECT* FROM libro WHERE id=?');
@@ -19,11 +27,13 @@ class librosModel {
     }
 
     //no confundir y pensar que el sort es un group by, los dos son formas de ordenamiento
-    public function getAllByAutor($id, $sort, $order){
-        $query=$this->db->prepare('SELECT * FROM libro
-                                    WHERE id_autor= ?
-                                    ORDER BY $sort $order');
-        $query->execute([$id]);
+    public function getAllByAutor($id_autor, $sortBy, $order, $limite, $offset){
+        $sql= "SELECT * FROM libro
+                WHERE id_autor= ?
+                ORDER BY $sortBy $order
+                LIMIT $limite OFFSET $offset";
+        $query=$this->db->prepare($sql);
+        $query->execute([$id_autor]);
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
