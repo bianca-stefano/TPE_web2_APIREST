@@ -3,7 +3,7 @@ class librosModel {
     private $db;
 
     public function __construct() {
-        $this->db= new PDO('mysql:host=localhost;dbname=biblioteca;charset=utf8', 'root','');
+        $this->db= new PDO('mysql:host=localhost;dbname=biblioteca;charset=utf8', 'root','root');
     }
 
     public function getAll() {
@@ -11,6 +11,7 @@ class librosModel {
         $query->execute();
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
+    
     public function getAllAPI($sortBy,$order, $limite, $offset) {
         $sql=   "SELECT * FROM libro
                 ORDER BY $sortBy $order
@@ -38,9 +39,16 @@ class librosModel {
     }
 
     public function update($id, $id_autor, $titulo, $desc, $img, $f_pub) {
-        $query=$this->db->prepare('UPDATE libro SET id=?, id_autor=?, titulo=?,
-                                     descripcion=?,imagen=?, fecha_publicacion=?');
-        $query->execute([$id,$id_autor, $titulo, $desc, $img, $f_pub]);
-        
+        $query = $this->db->prepare('UPDATE libro 
+                                     SET id_autor = ?, titulo = ?, descripcion = ?, imagen = ?, fecha_publicacion = ? 
+                                     WHERE id = ?');
+        $query->execute([$id_autor, $titulo, $desc, $img, $f_pub, $id]);
+    }
+
+    public function add($id_autor, $titulo, $desc, $img, $f_pub){
+        $query = $this->db->prepare('INSERT INTO libro(titulo, id_autor, descripcion, imagen, fecha_publicacion) VALUES(?,?,?,?,?)');
+        $query->execute([$titulo, $id_autor, $desc, $img, $f_pub]);
+
+        return $this->db->lastInsertId();
     }
 }

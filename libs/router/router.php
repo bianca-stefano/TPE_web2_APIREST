@@ -69,11 +69,11 @@ class Router {
 
     public function __construct() {
         $this->defaultRoute = null;
-        $this->request = new Request();
-        $this->response = new Response();
+        $this->request = new Request();            //INICIALIZO REQ
+        $this->response = new Response();          //INICIALIZO RES
     }
 
-    public function route($url, $verb) {
+    public function route($url, $verb) {            //Esta en la funcion que se llama al final del api_router.php
         foreach ($this->routeTable as $route) {
             if ($route->match($url, $verb)) {
                 $route->run($this->request, $this->response);

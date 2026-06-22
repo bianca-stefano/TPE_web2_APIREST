@@ -10,8 +10,8 @@
             header("Content-Type: application/json");
             $statusText = $this->_requestStatus($status);
             header("HTTP/1.1 $status $statusText");
-            echo json_encode($data);
-            $this->finished = true;
+            echo json_encode($data);                      //este echo es el que pasa toda la data al cliente
+            $this->finished = true;                       //le avisa al router que ya termino
         }
 
         private function _requestStatus($code) {

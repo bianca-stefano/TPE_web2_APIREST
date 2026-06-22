@@ -1,8 +1,9 @@
-<?php
-require_once 'app/models/users.model.php';
-require_once 'libs/jwt.php';
 
-class AunthApiController {
+<?php
+require_once __DIR__ . '/../models/users.model.php'; 
+require_once __DIR__ . '/../../libs/jwt/jwt.php';   
+
+class AuthApiController {
     private $model;
 
     public function __construct () {
@@ -10,39 +11,52 @@ class AunthApiController {
     }
 
     public function login($req, $res) {
-        //leer encabezado
-        $authorization= $req->authorization;
+        $headers = apache_request_headers();
+        
+        // Buscamos el original, o el alternativo si MAMP hace de las suyas
+        $authorization = null;
+        if (isset($headers['Authorization'])) {
+            $authorization = $headers['Authorization'];
+        } elseif (isset($headers['authorization'])) {
+            $authorization = $headers['authorization'];
+        } elseif (isset($headers['X-Authorization'])) { // Salvavidas para tu Mac
+            $authorization = $headers['X-Authorization'];
+        }
 
-        $auth= explode( '', $authorization);
-        if(count($auth)!= 2 || $auth[0] !== 'Basic') {
-            header("WWW-Authenticate: Basic realm= 'Get a token'");
+        if (!$authorization) {
+            header("WWW-Authenticate: Basic realm='Get a token'");
             return $res->json("unathorized", 401);
         }
 
-        $auth= base64_decode($auth[1]);
-        $user_pass= explode(":", $auth);
-        if(count($user_pass)!= 2) {
+        $auth = explode(' ', $authorization);
+        if(count($auth) != 2 || $auth[0] !== 'Basic') {
+            header("WWW-Authenticate: Basic realm='Get a token'");
             return $res->json("unathorized", 401);
         }
 
-        $user= $user_pass[0];
-        $password= $user_pass[1];
+        $auth = base64_decode($auth[1]);
+        $user_pass = explode(":", $auth);
+        if(count($user_pass) != 2) {
+            return $res->json("unathorized", 401);
+        }
 
-        $userBD= $this->model->getByUser($user);
+        $user = $user_pass[0];
+        $password = $user_pass[1];
 
-        if(!$userBD || password_verify($password, $userBD->password)) {
+        $userBD = $this->model->getByUser($user);
+
+        if(!$userBD || !password_verify($password, $userBD->password)) {
             return $res->json("usuario o contraseña incorrecta", 401);
         }
 
-        //return el token
-        $payload= [
-            'sub'=> $userBD->id,
-            'usuario'=> $userBD->usuario,
-            'roles' => ['ADMIN', 'USER', 'BANANA'],
-            'exp' => time() + 3600 // Expira en 1 hora
+        // Armamos el token
+        $payload = [
+            'sub' => $userBD->id_usuario, 
+            'usuario' => $userBD->email,  
+            'roles' => ['ADMIN', 'USER'],
+            'exp' => time() + 3600 
         ];
 
         return $res->json(createJWT($payload));
-
     }
 }

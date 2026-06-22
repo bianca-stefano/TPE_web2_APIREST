@@ -4,7 +4,7 @@ class AutoresModel{
    private $db;
 
    public function __construct() {
-        $this->db = new PDO('mysql:host=localhost;dbname=biblioteca;charset=utf8', 'root', '');
+        $this->db = new PDO('mysql:host=localhost;dbname=biblioteca;charset=utf8', 'root', 'root');
    }
 
    public function getAll() {

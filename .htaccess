@@ -1,5 +1,9 @@
 <IfModule mod_rewrite.c>
-	RewriteEngine On
+    RewriteEngine On
+
+    # TRUCO MAMP: Guarda el encabezado de Authorization antes de que Apache lo borre
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
 

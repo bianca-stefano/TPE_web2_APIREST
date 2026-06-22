@@ -1,7 +1,11 @@
 <?php
-//viene a ser como el motor del sistema de tokens
-//con este archivo se fabrica el token 
-// y ademas verifica si existe o si esta vencido
+
+/*
+    Este archivo tiene la función validateJWT, que se encarga de revisar matemáticamente que el token sea legítimo 
+    (que su firma sea real).
+    Además, mira el reloj para comprobar que no se haya pasado de la hora de vencimiento.
+*/
+
     function createJWT($payload) {
         // Header
         $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
@@ -15,7 +19,7 @@
         $payload = str_replace(['+', '/', '='], ['-', '_', ''], $payload);
 
         // Firma
-        $signature = hash_hmac('sha256', $header . "." . $payload, 'mi1secreto', true);
+        $signature = hash_hmac('sha256', $header . "." . $payload, 'promocionanosProfe', true);
         $signature = base64_encode($signature);
         $signature = str_replace(['+', '/', '='], ['-', '_', ''], $signature);
 
@@ -33,7 +37,7 @@
         $payload = $jwt[1];
         $signature = $jwt[2];
 
-        $valid_signature = hash_hmac('sha256', $header . "." . $payload, 'mi1secreto', true);
+        $valid_signature = hash_hmac('sha256', $header . "." . $payload, 'promocionanosProfe', true);
         $valid_signature = base64_encode($valid_signature);
         $valid_signature = str_replace(['+', '/', '='], ['-', '_', ''], $valid_signature);
 

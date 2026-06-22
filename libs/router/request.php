@@ -1,7 +1,7 @@
 <?php
     class Request {
-        public $body = null; # { nombre: 'Saludar', descripcion: 'Saludar a todos' }
-        public $params = null; # /api/tareas/:id
+        public $body = null; # { nombre: 'Saludar', descripcion: 'Saludar a todos' } VAN DENTRO DEL BODY
+        public $params = null; # /api/tareas/:id            se guarda lo que va despues de los ":"
         public $query = null; # ?soloFinalizadas=true
         public $user = null; # Información del usuario autenticado
         public $authorization = null;

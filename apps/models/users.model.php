@@ -7,7 +7,7 @@ class UsersModel {
       // 1. abre conexión con DB
       //$this->db = new PDO("mysql:host=".MYSQL_HOST.";dbname=".MYSQL_HOST.";charset=utf8", MYSQL_USER, MYSQL_PASS);
       //$this->deploy();
-          $this->db = new PDO('mysql:host=localhost;dbname=biblioteca;charset=utf8', 'root', '');
+          $this->db = new PDO('mysql:host=localhost;dbname=biblioteca;charset=utf8', 'root', 'root');
    }
    
 
@@ -50,7 +50,7 @@ class UsersModel {
   }
 
   public function getByUser($user) {
-        $query = $this->db->prepare('SELECT * FROM usuario WHERE usuario = ?');
+        $query = $this->db->prepare('SELECT * FROM usuario WHERE email = ?');
         $query->execute([$user]);
         $user = $query->fetch(PDO::FETCH_OBJ);
 
