@@ -63,6 +63,7 @@ Para acceder a los métodos protegidos (`POST`, `PUT`, `DELETE`), es necesario e
 * **URL:** `POST /api/libros`
 * **Descripción:** Inserta un nuevo libro (Requiere permisos de Admin).
 * **Cuerpo (JSON):**
+  
 ```json
 {
     "id_autor": 1,
