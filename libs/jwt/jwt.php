@@ -1,9 +1,10 @@
 <?php
-
 /*
     Este archivo tiene la función validateJWT, que se encarga de revisar matemáticamente que el token sea legítimo 
     (que su firma sea real).
     Además, mira el reloj para comprobar que no se haya pasado de la hora de vencimiento.
+    Tambien crea el token.
+    Este archivo funciona como una caja de herramientas para el token.
 */
 
     function createJWT($payload) {

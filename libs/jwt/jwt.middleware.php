@@ -2,8 +2,10 @@
 
 require_once __DIR__ . '/jwt.php';
 
-//es para validar el token, si no, no sirve para lo demas
-//controla si el token te da pase a diferentes funcionalidades
+/*
+    Cuanto el usuario hace una peticion, por ejemplo POST, en el header va un token, este middleware la intercepta
+    y verifica que efectivamente haya un token, que sea autentico y que no este vencido
+*/
 
 class JWTMiddleware extends Middleware {
     public function run($request, $response) {

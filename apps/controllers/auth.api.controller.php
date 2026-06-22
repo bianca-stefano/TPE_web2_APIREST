@@ -3,6 +3,11 @@
 require_once __DIR__ . '/../models/users.model.php'; 
 require_once __DIR__ . '/../../libs/jwt/jwt.php';   
 
+/* 
+    Valida credenciales del usuario (nombre y contraseña) vía Basic Auth y, si son correctas, genera y devuelve 
+    un token JWT con los datos del usuario para autorizar peticiones futuras a la API.
+*/
+
 class AuthApiController {
     private $model;
 
@@ -58,5 +63,10 @@ class AuthApiController {
         ];
 
         return $res->json(createJWT($payload));
+        //el token se crea cada vez que se loguea o cuando se vence y por ende
+        //debe re-loguearse
+
+        //justamente el token sirve para que el usuario no deba loguearse cada vez
+        //que hace una peticion
     }
 }
