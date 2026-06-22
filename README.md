@@ -82,7 +82,7 @@ GET /api/libros/8
 * **Cuerpo (JSON):**
 ```json
 {
-    "id_autor": 1,
+    "id_autor": 3,
     "titulo": "El gran libro de Matías",
     "descripcion": "Descripción detallada",
     "imagen": "imagen.jpg",
@@ -98,7 +98,7 @@ GET /api/libros/8
 
 ```json
 {
-    "id_autor": 1,
+    "id_autor": 3,
     "titulo": "Título actualizado",
     "descripcion": "Nueva descripción",
     "imagen": "nueva_imagen.jpg",
