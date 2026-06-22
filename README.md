@@ -6,63 +6,81 @@ Esta API permite gestionar una biblioteca (libros y autores). La autenticación 
 
 ---
 
-### Usuario y contraseña
+## Usuario y contraseña
 
--matias
--matias
+* Usuario: `matias`
+* Contraseña: `matias`
 
 ---
 
 ## Tecnologías utilizadas
-- **Backend:** PHP nativo con arquitectura MVC.
-- **Base de datos:** MySQL.
-- **Seguridad:** JSON Web Tokens (JWT).
-- **Ruteo:** Router propio (lib/router).
+
+* **Backend:** PHP nativo con arquitectura MVC.
+* **Base de datos:** MySQL.
+* **Seguridad:** JSON Web Tokens (JWT).
+* **Ruteo:** Router propio (`lib/router`).
 
 ---
 
 ## Autenticación
+
 Para acceder a los métodos protegidos (`POST`, `PUT`, `DELETE`), es necesario enviar un token JWT en el header de la petición:
-- **Header:** `X-Authorization`
-- **Valor:** `Bearer <TU_TOKEN_JWT>`
+
+* **Header:** `X-Authorization`
+* **Valor:** `Bearer <TU_TOKEN_JWT>`
 
 ---
 
 ## Resumen de Endpoints
 
-| Método | Endpoint | Descripción | Requiere Token |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/api/auth/login` | Obtiene el token JWT mediante Basic Auth | No |
-| `GET` | `/api/libros` | Lista todos los libros (admite paginación) | No |
-| `GET` | `/api/libros/:id` | Devuelve el detalle de un libro | No |
-| `POST` | `/api/libros` | Agrega un nuevo libro | Sí (ADMIN) |
-| `PUT` | `/api/libros/:id` | Actualiza un libro existente | Sí (ADMIN) |
+| Método | Endpoint          | Descripción                                | Requiere Token |
+| ------ | ----------------- | ------------------------------------------ | -------------- |
+| `POST` | `/api/auth/login` | Obtiene el token JWT mediante Basic Auth   | No             |
+| `GET`  | `/api/libros`     | Lista todos los libros (admite paginación) | No             |
+| `GET`  | `/api/libros/:id` | Devuelve el detalle de un libro            | No             |
+| `POST` | `/api/libros`     | Agrega un nuevo libro                      | Sí (ADMIN)     |
+| `PUT`  | `/api/libros/:id` | Actualiza un libro existente               | Sí (ADMIN)     |
 
 ---
 
 ## Documentación Detallada
 
 ### 1. Autenticación (Login)
+
 * **URL:** `POST /api/auth/login`
 * **Descripción:** Recibe credenciales y devuelve un token JWT.
-* **Uso:** En Postman, usar la pestaña **Authorization** -> **Basic Auth** con el usuario y contraseña. El servidor devolverá el token necesario para las rutas protegidas.
+* **Uso:** En Postman, usar la pestaña **Authorization → Basic Auth** con el usuario y contraseña. El servidor devolverá el token necesario para las rutas protegidas.
 
 ### 2. Obtener todos los libros
+
 * **URL:** `GET /api/libros`
 * **Descripción:** Devuelve una lista de libros.
-* **Parámetros (Opcionales):** * `page`: Número de página.
-    * `limit`: Cantidad de resultados por página.
-* **Ejemplo:** `GET /api/libros?page=1&limit=4`
+* **Parámetros (opcionales):**
+
+  * `page`: Número de página.
+  * `limit`: Cantidad de resultados por página.
+* **Ejemplo:**
+
+```http
+GET /api/libros?page=1&limit=4
+```
 
 ### 3. Obtener un libro por ID
+
 * **URL:** `GET /api/libros/:id`
 * **Descripción:** Devuelve la información completa de un único libro.
-* **Ejemplo:** `GET /api/libros/8`
+* **Ejemplo:**
+
+```http
+GET /api/libros/8
+```
 
 ### 4. Crear un nuevo libro
+
 * **URL:** `POST /api/libros`
-* **Descripción:** Inserta un nuevo libro (Requiere permisos de Admin).
+* **Descripción:** Inserta un nuevo libro (requiere permisos de Admin).
 * **Cuerpo (JSON):**
+
 ```json
 {
     "id_autor": 1,
@@ -71,11 +89,14 @@ Para acceder a los métodos protegidos (`POST`, `PUT`, `DELETE`), es necesario e
     "imagen": "imagen.jpg",
     "fecha_publicacion": "2026-06-21"
 }
+```
 
-### 5. Actualizar un nuevo libro
+### 5. Actualizar un libro
+
 * **URL:** `PUT /api/libros/:id`
-* **Descripción:** Actualiza un nuevo libro (Requiere permisos de Admin).
+* **Descripción:** Actualiza un libro existente (requiere permisos de Admin).
 * **Cuerpo (JSON):**
+
 ```json
 {
     "id_autor": 1,
@@ -84,5 +105,5 @@ Para acceder a los métodos protegidos (`POST`, `PUT`, `DELETE`), es necesario e
     "imagen": "nueva_imagen.jpg",
     "fecha_publicacion": "2026-06-21"
 }
-
+```
 
